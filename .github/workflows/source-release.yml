@@ -1,0 +1,48 @@
+name: Draft source release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check version matches tag
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          python3 - <<'PY'
+          import os, plistlib
+          version = plistlib.load(open('Resources/Info.plist', 'rb'))['CFBundleShortVersionString']
+          assert os.environ['RELEASE_TAG'] == 'v' + version, 'Tag and app version differ'
+          PY
+      - run: bash scripts/check.sh
+      - run: bash scripts/scan-secrets.sh
+      - run: python3 scripts/export-source.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: source-release
+          path: dist/source/*
+          if-no-files-found: error
+  draft:
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - run: python3 scripts/export-source.py
+      - name: Create draft with source and checksums
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: gh release create "$RELEASE_TAG" dist/source/* --verify-tag --draft --title "$RELEASE_TAG" --notes-file CHANGELOG.md

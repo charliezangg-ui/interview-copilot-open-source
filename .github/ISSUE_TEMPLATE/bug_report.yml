@@ -1,0 +1,16 @@
+name: 问题反馈
+description: 提供最小复现，使用虚构材料。
+body:
+  - type: input
+    id: version
+    attributes:
+      label: 应用版本、macOS 版本与芯片
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 复现步骤、预期结果与实际结果
+      description: 请勿附真实简历、录音、会话 JSON 或凭据。安全问题参见 SECURITY.md。
+    validations:
+      required: true

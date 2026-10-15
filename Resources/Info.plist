@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>CFBundleName</key><string>InterviewCopilot</string>
+<key>CFBundleDisplayName</key><string>面试助手</string>
+<key>CFBundleIdentifier</key><string>local.interview-copilot.demo</string>
+<key>CFBundleExecutable</key><string>InterviewCopilot</string>
+<key>CFBundlePackageType</key><string>APPL</string>
+<key>CFBundleShortVersionString</key><string>0.6.0</string>
+<key>CFBundleVersion</key><string>25</string>
+<key>LSMinimumSystemVersion</key><string>15.0</string>
+<key>NSMicrophoneUsageDescription</key><string>记录面试中你的问题，与候选人发言分轨转写。</string>
+<key>NSAudioCaptureUsageDescription</key><string>采集电脑微信的候选人声音，用于实时转写与面试辅助。</string>
+<key>NSScreenCaptureUsageDescription</key><string>通过系统采集权限取得电脑微信音频；不保存屏幕画面。</string>
+<key>NSHighResolutionCapable</key><true/>
+</dict></plist>
